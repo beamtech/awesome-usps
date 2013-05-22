@@ -62,24 +62,24 @@ module AwesomeUSPS
     # Example of returned array
     def parse_service(xml)
       event_list = []
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:description).inner_html
       else
-        return  parse = (Hpricot.parse(xml)/:days).inner_html
+        return  parse = (Nokogiri::XML.parse(xml)/:days).inner_html
       end
     end
 
     def parse_express(xml)
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:description).inner_html
       else
         i= 0
         location_list = []
-        (Hpricot.parse(xml)/:location).each do |location|
+        (Nokogiri::XML.parse(xml)/:location).each do |location|
           i+=1
           h = {}
           location.children.each {|elem| h[elem.name.to_sym] = elem.inner_text unless elem.inner_text.blank?}

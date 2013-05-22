@@ -1,4 +1,5 @@
-require 'hpricot'
+require 'nokogiri'
+require 'builder'
 
 module AwesomeUSPS
   module AddressVerification
@@ -88,27 +89,27 @@ module AwesomeUSPS
     def parse_address_information(xml)
       i = 0
       list_of_verified_addresses = []
-      (Hpricot.parse(xml)/:address).each do |address|
+      (Nokogiri::XML.parse(xml)/:Address).each do |address|
         i+=1
         h = {}
         #Check if there was an error in an address element
-        if address.search("error") != []
-          AwesomeUSPS.logger.info("Address number #{i} has the error '#{address.search("description").inner_html}' please fix before continuing")
+        unless address.search("Error").empty?
+          AwesomeUSPS.logger.info("Address number #{i} has the error '#{address.search("Description").inner_html}' please fix before continuing")
 
-          return "Address number #{i} has the error '#{address.search("description").inner_html}' please fix before continuing"
+          return "Address number #{i} has the error '#{address.search("Description").inner_html}' please fix before continuing"
         end
-        if address.search("ReturnText") != []
-          h[:verified] = false
+        if address.search("ReturnText").empty?
+          h[:verified] = true
         else
-          h[:verified] =true
+          h[:verified] = false
         end
         address.children.each { |elem| h[elem.name.to_sym] = elem.inner_text unless elem.inner_text.blank? }
         list_of_verified_addresses << h
       end
       #Check if there was an error in the basic XML formating
       if list_of_verified_addresses == []
-        error = Hpricot.parse(xml)/:error
-        return  error.search("description").inner_html
+        error = Nokogiri::XML.parse(xml)/:Error
+        return  error.search("Description").inner_html
       end
       return list_of_verified_addresses
     end

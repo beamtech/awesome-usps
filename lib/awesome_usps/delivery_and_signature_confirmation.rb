@@ -29,7 +29,7 @@ module  AwesomeUSPS
 
     def canned_signature_confirmation_label_test
       origin = Location.new( :name=> "John Smith",  :address2 => "6406 Ivy Lane",  :state => 'MD', :city => 'Greenbelt', :zip5 => '20770')
-      destination =Location.new( :name=> "Joe Customer",  :address2 =>"136 Linwood Plz",  :state => 'NJ', :city => 'Fort Lee', :zip5 => "07024")
+      destination = Location.new( :name=> "Joe Customer",  :address2 =>"136 Linwood Plz",  :state => 'NJ', :city => 'Fort Lee', :zip5 => "07024")
       service_type = "Priority"
       image_type ="PDF"
       label_type = 1
@@ -82,17 +82,17 @@ module  AwesomeUSPS
       else
         image_type = "application/pdf"
       end
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:Error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:Description).inner_html
       elsif action == :signature_confirmation_certify || :signature
-        number = Hpricot.parse(xml)/:signatureconfirmationnumber
-        label = Hpricot.parse(xml)/:signatureconfirmationlabel
+        number = Nokogiri::XML.parse(xml)/:SignatureConfirmationNumber
+        label = Nokogiri::XML.parse(xml)/:SignatureConfirmationLabel
         return {:image_type => image_type, :number => number.inner_html, :label => label.inner_html}
       else
-        number = Hpricot.parse(xml)/:deliveryconfirmationnumber
-        label = Hpricot.parse(xml)/:deliveryconfirmationlabel
+        number = Nokogiri::XML.parse(xml)/:DeliveryConfirmationNumber
+        label = Nokogiri::XML.parse(xml)/:DeliveryConfirmationLabel
         return {:image_type => image_type, :number => number.inner_html, :label => label.inner_html}
       end
     end

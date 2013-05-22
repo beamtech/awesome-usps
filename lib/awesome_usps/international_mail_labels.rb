@@ -218,12 +218,12 @@ module  AwesomeUSPS
     def parse_internation_label(xml, image_type, response)
       label_hash = {}
       image_type = image_mime(image_type)
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
         return parse.inner_html
       end
-      parse = Hpricot.parse(xml).search("#{response.downcase}")
+      parse = Nokogiri::XML.parse(xml).search("#{response.downcase}")
       parse.each do |detail|
         h = {}
         detail.children.each { |elem| label_hash[elem.name.to_sym] = elem.inner_text unless elem.inner_text.blank? }

@@ -11,13 +11,18 @@ enjoy.
 The original plugin has now been converted to a gem by
 [Wes Morgan from TurboVote.org]:http://turbovote.org/.
 
+## TurboVote fork changelog
+
+* 1.0.1 - replace hpricot with nokogiri because hpricot is no longer maintained
+* 1.0.0 - initial gem release
+
 [Matthew Bergman]:http://matthewbergman.com
 [discuss]:http://groups.google.com/group/Awsome-USPS
 [Active Shipping]:http://github.com/Shopify/active_shipping/tree/master
 
 ## Dependencies
 
-* [hpricot](http://code.whytheluckystiff.net/hpricot/) for parsing the XML
+* [nokogiri](http://nokogiri.org/) for parsing the XML
 * [mocha](http://mocha.rubyforge.org/) for the tests
 
 ## Download & Installation
