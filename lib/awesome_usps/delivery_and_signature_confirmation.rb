@@ -21,7 +21,7 @@ module  AwesomeUSPS
       service_type = "Priority"
       image_type ="PDF"
       label_type = 1
-      options = {:weight => 2}
+      options = {:weight_in_ounces => 2}
       api_request = "DelivConfirmCertifyV3.0Request"
       request = confirmation_xml(api_request, origin, destination, service_type, image_type, label_type, options)
       gateway_commit(:delivery_confirmation_certify,'DelivConfirmCertifyV3', request, :ssl, image_type)
@@ -33,7 +33,7 @@ module  AwesomeUSPS
       service_type = "Priority"
       image_type ="PDF"
       label_type = 1
-      options = {:weight => 2}
+      options = {:weight_in_ounces => 2}
       api_request = "SigConfirmCertifyV3.0Request"
       request = confirmation_xml(api_request, origin, destination, service_type, image_type, label_type, options)
       gateway_commit(:signature_confirmation_certify, 'SignatureConfirmationCertifyV3', request, :ssl, image_type)
