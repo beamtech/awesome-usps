@@ -32,7 +32,6 @@ module AwesomeUSPS
       :first_class_mail_certify => 'parse_internation_label',
       :open_distrubute_priority => "parse_open_distrubute_priority",
       :open_distribute_priority_certify => "parse_open_distrubute_priority",
-      :priority_mail => "parse_service",
       :standard => "parse_service",
       :express => 'parse_express',
       :tracking => 'parse_tracking'

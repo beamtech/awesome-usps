@@ -1,41 +1,41 @@
 module AwesomeUSPS
   module ExpressMail
 
-    def express_mail_label(orgin, destination, ounces, image_type, request_api = "ExpressMailLabelRequest", options={})
-      request = express_mail_xml(request_api, orgin, destination, ounces, image_type, options)
+    def express_mail_label(origin, destination, ounces, image_type, request_api = "ExpressMailLabelRequest", options={})
+      request = express_mail_xml(request_api, origin, destination, ounces, image_type, options)
       #YES THE API IS SO STUPID THAT WE MUST PASS WHAT TYPE OF MIME TYPE!
       gateway_commit(:express_mail_label, 'ExpressMailLabel', request, :ssl, image_type)
     end
 
     def canned_express_mail_label_test
-      orgin = Location.new( :first_name=> "Craig", :last_name=>"Engle",  :address2 => "6406 Ivy Lane",  :state => 'MD', :city => 'Greenbelt', :zip5 => '20770', :phone => "2127658576")
-      destination =Location.new( :firm_name=> "XYZ Corp.",  :address2 =>"1100 West Avenue", :address2 => "6406 Ivy Lane",  :state => 'MD', :city => 'Greenbelt', :zip5 => '20770')
+      origin = Location.new( :first_name=> "Craig", :last_name=>"Engle",  :address2 => "6406 Ivy Lane", :state => 'MD', :city => 'Greenbelt', :zip5 => '20770', :phone => "2127658576")
+      destination = Location.new( :firm_name=> "XYZ Corp.", :address2 =>"1100 West Avenue",  :state => 'MD', :city => 'Greenbelt', :zip5 => '20770')
       ounces = "50"
       image_type ="PDF"
       options = {}
       request_api = "ExpressMailLabelCertifyRequest"
-      request = express_mail_xml(request_api, orgin, destination, ounces, image_type, options)
+      request = express_mail_xml(request_api, origin, destination, ounces, image_type, options)
       gateway_commit(:express_mail_label_certify, 'ExpressMailLabelCertify', request, :ssl, image_type)
     end
 
     private
-    def express_mail_xml(request_api, orgin, destination, ounces, image_type, options)
+    def express_mail_xml(request_api, origin, destination, ounces, image_type, options)
       xm = Builder::XmlMarkup.new
       xm.tag!("#{request_api}", "USERID"=>"#{@username}") do
         xm.Option
         xm.EMCAAccount
         xm.EMCAPassword
         xm.ImageParameters
-        xm.FromFirstName(orgin.name)
-        xm.FromLastName(orgin.last_name)
-        xm.FromFirm(orgin.firm_name)
-        xm.FromAddress1(orgin.address1) #Used for an apartment or suite number. Yes the API is a bit fucked.
-        xm.FromAddress2(orgin.address2)
-        xm.FromCity(orgin.city)
-        xm.FromState(orgin.state)
-        xm.FromZip5(orgin.zip5)
-        xm.FromZip4(orgin.zip4)
-        xm.FromPhone(orgin.phone)
+        xm.FromFirstName(origin.name)
+        xm.FromLastName(origin.last_name)
+        xm.FromFirm(origin.firm_name)
+        xm.FromAddress1(origin.address1) #Used for an apartment or suite number. Yes the API is a bit fucked.
+        xm.FromAddress2(origin.address2)
+        xm.FromCity(origin.city)
+        xm.FromState(origin.state)
+        xm.FromZip5(origin.zip5)
+        xm.FromZip4(origin.zip4)
+        xm.FromPhone(origin.phone)
         xm.ToFirstName(destination.name)
         xm.ToLastName(destination.last_name)
         xm.ToFirm(destination.firm_name)
