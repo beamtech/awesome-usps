@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = AwesomeUSPS::VERSION
   s.authors     = ["Matthew Bergman", "Wes Morgan"]
   s.email       = ["mzbphoto@gmail.com", "wes@turbovote.org"]
-  s.homepage    = "https://github.com/FotoVerite/awesome-usps"
+  s.homepage    = "https://github.com/turbovote/awesome-usps"
   s.summary     = %q{awesome-usps is a Ruby wrapper around the USPS web API}
   s.description = %q{A ruby wrapper around the various USPS APIs for generating rates, tracking information, label generation, and address checking.}
 
@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "hpricot"
+  s.add_runtime_dependency "nokogiri"
+  s.add_runtime_dependency "builder"
   s.add_runtime_dependency "activesupport"
 
   s.add_development_dependency "mocha"

@@ -30,7 +30,7 @@ module AwesomeUSPS #:nodoc:
     def initialize(options = {})
       @country = options[:country]
       @name = options[:name] || options[:first_name]
-      @last_name= options[:last_name]
+      @last_name = options[:last_name]
       @firm_name = options[:firm_name]
       @zip5 = options[:postal_code] || options[:postal] || options[:zip5]
       @zip4 = options[:zip4]
@@ -38,10 +38,10 @@ module AwesomeUSPS #:nodoc:
       @city = options[:city]
       @address1 = options[:address1]
       @address2 = options[:address2]
-      @address3=options [:address3]
+      @address3 = options [:address3]
       @phone = options[:phone]
       @facility_type = options[:facility_type]
-      @from_urbanization =options[:from_urbanization]
+      @from_urbanization = options[:from_urbanization]
     end
 
     def zip9

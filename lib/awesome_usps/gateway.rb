@@ -1,7 +1,7 @@
 module AwesomeUSPS
   module Gateway
 
-    MAX_RETRIES = 3
+    DEFAULT_MAX_RETRIES = 3
 
     LIVE_DOMAIN = 'production.shippingapis.com'
     LIVE_RESOURCE = '/ShippingAPI.dll'
@@ -48,7 +48,7 @@ module AwesomeUSPS
     }
 
     def gateway_commit(action, api, request, http_request, image_type="PDF")
-      retries = MAX_RETRIES
+      retries = defined?(AwesomeUSPS::MAX_RETRIES) ? AwesomeUSPS::MAX_RETRIES : DEFAULT_MAX_RETRIES
       begin
         url = URI.parse(url_path(http_request))
         req = Net::HTTP::Post.new(url.path)

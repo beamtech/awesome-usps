@@ -26,10 +26,10 @@ module AwesomeUSPS
     # Example of returned array
     def parse_tracking(xml)
       event_list = []
-      parse = Hpricot.parse(xml)/:trackdetail
+      parse = Nokogiri::XML.parse(xml)/:trackdetail
       if parse == []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:description).inner_html
       else
         parse.each do |detail|
           h = {}

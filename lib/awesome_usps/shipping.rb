@@ -163,7 +163,7 @@ module AwesomeUSPS
     def parse_us(xml)
       i=0
       domestic_rate_array = []
-      Hpricot.parse(xml).search('package').each do |package|
+      Nokogiri::XML.parse(xml).search('package').each do |package|
         h = {}
         i+=1
         #This will return the first error description found in response xml.
@@ -183,7 +183,7 @@ module AwesomeUSPS
         domestic_rate_array << h
       end
       if  domestic_rate_array == []
-        return Hpricot.parse(xml).search('description').inner_html
+        return Nokogiri::XML.parse(xml).search('description').inner_html
       end
       return domestic_rate_array
     end
@@ -191,7 +191,7 @@ module AwesomeUSPS
     def parse_world(xml)
       international_rate_array = []
       i= 0
-      Hpricot.parse(xml).search('package').each do |package|
+      Nokogiri::XML.parse(xml).search('package').each do |package|
         i+=1
         h = {}
         #This will return the first error description found in response xml.
@@ -212,7 +212,7 @@ module AwesomeUSPS
         international_rate_array << h
       end
       if   international_rate_array == []
-        return Hpricot.parse(xml).search('description').inner_html
+        return Nokogiri::XML.parse(xml).search('description').inner_html
       end
       return international_rate_array
     end

@@ -69,14 +69,14 @@ module AwesomeUSPS
       else
         image_type = "application/pdf"
       end
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:description).inner_html
       else
-        label = Hpricot.parse(xml)/:emlabel
-        postage =Hpricot.parse(xml)/:postage
-        confirmation_number = Hpricot.parse(xml)/:emconfirmationnumber
+        label = Nokogiri::XML.parse(xml)/:emlabel
+        postage = Nokogiri::XML.parse(xml)/:postage
+        confirmation_number = Nokogiri::XML.parse(xml)/:emconfirmationnumber
         confirmation_number = "none" if confirmation_number == []
         return {:image_type => image_type, :confirmation_number => confirmation_number.inner_html, :postage => postage.inner_html, :label => label.inner_html}
       end

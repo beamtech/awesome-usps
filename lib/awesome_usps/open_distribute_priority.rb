@@ -60,13 +60,13 @@ module  AwesomeUSPS
       else
         image_type = "application/pdf"
       end
-      parse = Hpricot.parse(xml)/:error
+      parse = Nokogiri::XML.parse(xml)/:error
       if parse != []
         AwesomeUSPS.logger.info "#{xml}"
-        return (Hpricot.parse(xml)/:description).inner_html
+        return (Nokogiri::XML.parse(xml)/:description).inner_html
       else
-        number = Hpricot.parse(xml)/:opendistributeprioritynumber
-        label = Hpricot.parse(xml)/:opendistributeprioritylabel
+        number = Nokogiri::XML.parse(xml)/:opendistributeprioritynumber
+        label = Nokogiri::XML.parse(xml)/:opendistributeprioritylabel
         return {:image_type => image_type, :number => number.inner_html, :label => label.inner_html}
       end
     end
