@@ -91,21 +91,27 @@ module AwesomeUSPS
       list_of_verified_addresses = []
       (Nokogiri::XML.parse(xml)/:Address).each do |address|
         i+=1
-        h = {}
+        address_hash = {}
+
         #Check if there was an error in an address element
         unless address.search("Error").empty?
-          AwesomeUSPS.logger.info("Address number #{i} has the error '#{address.search("Description").inner_html}' please fix before continuing")
+          error_message = address.search("Description").inner_html
+          AwesomeUSPS.logger.info("Address number #{i} has the error '#{error_message}'.")
 
-          return "Address number #{i} has the error '#{address.search("Description").inner_html}' please fix before continuing"
-        end
-        if address.search("ReturnText").empty?
-          h[:verified] = true
+          address_hash[:error_message] = "Address number #{i} has the error '#{error_message}'."
+          address_hash[:verified] = false
         else
-          h[:verified] = false
+          if address.search("ReturnText").empty?
+            address_hash[:verified] = true
+          else
+            address_hash[:verified] = false
+          end
         end
-        address.children.each { |elem| h[elem.name.to_sym] = elem.inner_text unless elem.inner_text.blank? }
-        list_of_verified_addresses << h
+
+        address.children.each { |elem| address_hash[elem.name.downcase.to_sym] = elem.inner_text unless elem.inner_text.blank? }
+        list_of_verified_addresses << address_hash
       end
+
       #Check if there was an error in the basic XML formating
       if list_of_verified_addresses == []
         error = Nokogiri::XML.parse(xml)/:Error
